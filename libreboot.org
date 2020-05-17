@@ -1,0 +1,190 @@
+* Flasha Libreboot till Lenovo x200.
+** Vad är Libreboot?
+** Varför flasha Libreboot?
+** Förutsättningar.
+- x86, x86_64 eller arm7l processor.
+- Raspberry Pi (eller liknande enkortsdator) med kringutrusning.
+/Här utförs flashingen med en Raspberry Pi 3 Model B./
+- Passande SOIC-klämma. Vanligtvis 8 eller 16 stiftad.
+/Här används 16 stiftad SOIC-klämma./
+- 6st jumper kablar, hona till hona.
+- Anslutning till internet.
+- Skruvmejsel.
+- En gnutta tålamod.
+*** Updatera BIOS/EC
+Att uppdatera det befintliga BIOS och drivrutiner, på din låda, innan flashing till libreboot sker, rekommenderas.
+Detta är pågrund av att det blir mer komplicerat att updatera BIOS, vid ett senare skede, när väl din ThinkPad redan är flashad med Libreboot.
+
+Börja först med att kolla upp den befintlig version av BIOS och EC med följande kommandon.
+#+BEGIN_SRC sh
+  sudo dmidecode -s bios-version
+#+END_SRC
+#+BEGIN_EXAMPLE
+6DETnnWW (3.02)
+#+END_EXAMPLE
+#+BEGIN_SRC sh
+  dmidecode -t 11
+#+END_SRC
+#+BEGIN_EXAMPLE
+  # dmidecode 3.1
+  Getting SMBIOS data from sysfs.
+  SMBIOS 2.4 present.
+
+  Handle 0x001D, DMI type 11, 5 bytes
+  OEM Strings
+	  String 1: IBM ThinkPad Embedded Controller -[7XHT22WW-1.04]
+#+END_EXAMPLE
+#+BEGIN_SRC sh
+  dmesg | grep "ThinkPad BIOS"
+#+END_SRC
+#+BEGIN_EXAMPLE
+  [3.758331] thinkpad_acpi: ThinkPad BIOS 6DET52WW (3.02), EC 7XHT22WW-1.04]
+#+END_EXAMPLE
+Stämmer det överens med den senaste versionen av BIOS kan du gå vidare i proceduren.
+
+Annars gräva fram och ladda ned senaste BIOS till x200 här https://support.lenovo.com.
+eller knappa in följande kommando.
+#+BEGIN_SRC sh
+  wget https://download.lenovo.com/ibmdl/pub/pc/pccbbs/mobiles/6duj48us.iso
+#+END_SRC
+Fortsätt sedan med passande metod nedan.
+**** Metoder
+***** Uppdatering med USB-minne
+- Ladda ned "El Torito extraction tool" och gör det exkeveringsbart.
+#+BEGIN_SRC sh 
+  wget https://userpages.uni-koblenz.de/~krienke/ftp/noarch/geteltorito/geteltorito/geteltorito
+  chmod 755 geteltorito
+#+END_SRC
+- Använd det till att extrahera boot-bilden 
+#+BEGIN_SRC sh
+  ./geteltorito -o bios.img 6duj48us.iso
+#+END_SRC
+- Sätt in USB-minnet och skriv över =bios.img= till minnet.
+(Observera att du skriver in rätt benämning på enheten! Dubbelkolla flera gånger för säkerhets skull att det verkligen är usb-stickan du skriver till!)
+#+BEGIN_SRC sh
+  dd if=bios.img of=/dev/sdx bs=64K # Där x i /dev/sdx ersätts med korrekt benämning där USB minnet befinner sig i filsystemet.
+#+END_SRC
+
+Kör =reboot=, tryck =Enter= vid uppstart och sedan =F12=, välj sedan USB-minnet i listan.
+***** Boota updatering i GRUB
+Saknar du ett USB-minne eller inte orkar krångla kan du använda följande metod.
+#+BEGIN_SRC sh
+  cd /boot
+  cp ~/Downloads/6duj48us.iso .
+  cp /usr/share/syslinux/memdisk .
+  ln -s 6duj48us.iso biosupgrade.iso
+
+  cat >> /etc/grub.d/40_custom <<EOF
+  menuentry "Lenovo BIOS Upgrade" {
+	    set root=(hd0,1) # Kolla upp korrekt numrering
+	    linux16 /boot/memdisk iso
+	    initrd16 /boot/biosupgrade.iso
+  }
+  EOF
+
+  update-grub
+#+END_SRC
+Reboota och välj "Lenevo BIOS Upgrade" i GRUB-menyn.
+** Demontering
+Plocka isär x200 för tillgång till BIOS-chipet.
+- Plocka ur batteriet samt hårddisk/ssd.
+- Skruva ur de 8 skruven där handledsskyddet/tangentbord-symbolen indikerar på datorns baksida.
+- Tryck försiktigt upp tangentbordet mot skärmen lyft sedan upp tangentbordets botten och koppla ur kablarna från tangentbordet till moderkortet.
+- Tryck därefter upp handledsstödet
+
+Under handledsstödet finns antingen ett 8 eller 16-pinnat BIOS-chip med model-namnet =MX25L6405D= eller liknande.
+
+** Raspberry Pie
+Förbered enkortsdatorn(Raspberry Pie). Genom att ansluta =ssh= mellan din primära låda och pajen.(Smidigt och ger viss säkerhet ifall flashingen skulle resultera i katastrof)
+Skämt åsido;
+- Om =Raspian= körs, kan du skriva kommandot.
+#+BEGIN_SRC sh
+  sudo raspi-config
+#+END_SRC
+och välja "Enable SPI" under "Advanced" villket aktiverar =spidev=.
+
+- Skapa en mapp där filer relaterade till flashingen kan förvaras.
+#+BEGIN_SRC sh
+  mkdir ~/x200
+#+END_SRC
+
+- Installera nödvändiga verktyg
+#+BEGIN_SRC sh
+  sudo apt-get update && sudo apt-get install libftdil libftdi-dev libusb-dev libpci-dev subversion libusb-1.0-0-dev pciutils, libusb, build-essential
+#+END_SRC
+
+- Ladda ned och kompilera flashrom
+#+BEGIN_SRC sh
+  git clone https://www.github.com/flashrom/flashrom
+  make
+  sudo make install
+#+END_SRC
+
+** Förbered flashing
+*** SPI
+*OBS stäng av och koppla ur AC på Pie:n innan du utför detta moment!*
+- Koppla SOIC-klämman så den stämmer med BIOS-chipets stift
+- Koppla SOIC-klämman med enkortsdatorn(Raspberry Pie)
+|-------------+-----------------|
+| *BIOS-chip* | *Raspberry Pie* |
+|-------------+-----------------|
+| 2 VCC       | 1/17 3.3v       |
+|-------------+-----------------|
+| 7 CS#       | 24 SPI_CE0      |
+|-------------+-----------------|
+| 8 MISO      | 21 MISO         |
+|-------------+-----------------|
+| 10 GND      | 25 GND          |
+|-------------+-----------------|
+| 15 MOSI     | 19 MOSI         |
+|-------------+-----------------|
+| 16 SCLK     | 23 SCLK         |
+|-------------+-----------------|
+/SCLK: Serial clock/
+/MOSI: Master Output Slave Input/
+/MISO: Master Input Slave Output/
+
+*OBS håll enkortsdatorn avstängd vid placering av SOIC-klämman!*
+/I värsta fall kan BIOS-chipet bli stekt./
+*** Flashrom
+- Verifiera storlek på BIOS-chipet (4mb, 8mb eller 16mb)
+#+BEGIN_SRC sh
+  flashrom -p linux_spi:dev0.0,spispeed=128 -r -V
+#+END_SRC
+
+- Ladda ned Libreboot från https://libreboot.org/downloads och packa upp.
+
+#+BEGIN_SRC sh
+  wget https://www.mirrorservice.org/sites/libreboot.org/release/stable/20160907/rom/grub/libreboot_r20160907_grub_x200_16mb.tar.xz
+  tar -xvf libreboot_r20160907_grub_x200_8mb.tar.xz
+#+END_SRC
+
+- Läs BIOS-chipet med följande kommando, detta steg skall upprepas 3 gånger, med olika filnamn.rom som argument.
+Lättast att hålla reda på är rom1.rom för första försöket. rom2.rom andra, rom3.rom för tredje.
+/OBS Detta kan ta en stund./
+#+BEGIN_SRC sh
+  ./flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 --chip <BIOS-chip-model> -r rom1.rom
+
+  ./flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 --chip <BIOS-chip-model> -r rom2.rom
+
+  ./flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 --chip <BIOS-chip-model> -r rom3.rom
+#+END_SRC
+Ifall =flashrom= inte lyckas läsa ditt BIOS-chip, testa att, antingen sänka eller höja =spispeed=. 64, 128, 256, 512 etc.
+
+- Testa sedan dem lästa .rom-filerna med sha512, med kommandot;
+
+#+BEGIN_SRC sh
+  sha512sum rom*.rom
+#+END_SRC
+Om detta ger ut identiska sha512 hashes är det säkert att fortgå och börja flasha Libreboot.
+*** Flasha Libreboot
+#+BEGIN_SRC sh
+  ./flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=128 --chip <BIOS-chip-model> -w <libreboot.rom>
+#+END_SRC
+Detta kommando kommer skriva in libreboot och kan ta runt 20 minuter och även spotta ut oroväckande log-meddelanden, behåll lugnet, detta är ett bra tecken.
+
+Det kan även misslyckas några gånger.
+
+När slutmeddelanden som =Verifying flash.. Verified= eller =Warning: Chip content is identical to the requested image= spottats ut, är allt klart.
+
+- Plocka sedan ihop din burk och installera ett Libre OS.
