@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{multicol}
+\usepackage{wrapfig}
+
+%% Define Code Blocks Begin %%
+\usepackage{listings}
+\usepackage{color}
+\usepackage{keyval}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    tabsize=3
+}
+%% Define Code Blocks End %%
+
+%% Flow-chart Begin %% 
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+%% Boxes
+%% File-boxes
+\tikzstyle{file} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+
+%% Command-boxes
+\tikzstyle{command} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+
+%% Platform-boxes
+\tikzstyle{platform} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+
+%% OS-box
+\tikzstyle{os} = [rectangle, minimum width=1cm, minimum height=1cm, text centered, draw=black, fill=yellow!30]
+%% Arrows
+\tikzstyle{arrow} = [thick,->,>=stealth]
+%% Flow-chart End %%
+
+\usepackage{subfiles}
+
+\title{Programmering 1 - Uppgift 1}
+\author{Peter Holm}
+\date{Juni 2020}
+
+\begin{document}
+
+\maketitle
+
+\subfile{del1/sec1}
+
+\newpage
+
+\section{Del 2}
+
+\subfile{del2/subsec2.1-2.3}
+
+\newpage
+
+\subfile{del2/subsec2.4}
+
+\subfile{del2/subsec2.5}
+
+\newpage
+
+\subfile{del2/subsec2.6}
+
+\newpage
+
+\subfile{del2/subsec2.7}
+
+\newpage
+
+\subfile{del2/subsec2.8-2.10}
+
+\end{document}
