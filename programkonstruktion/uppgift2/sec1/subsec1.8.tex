@@ -1,0 +1,45 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Vad händer vid explicit typomvandling?}
+När man tilldelar värden från en data-typ till en annan, kan dessa data-typer inte vara kompatibla med varandra. Är typerna däremot kompatibla med varandra utför Java en automatiskt typomvandling. Om inte detta går behöver programmeraren manuellt deklarera explicit typomvandling mellan data-typerna.\\
+
+Automatisk typomvandling sker när data-typerna;
+\begin{itemize}
+    \item Data-typerna är kompatibla.
+    \item När man tilldelar en mindre data-typ till en större.
+\end{itemize}
+\begin{lstlisting}[language=java]
+// byte -> short -> int -> long -> float -> double
+// Automatisk typomvandling
+
+// Exempel
+int i = 10;
+long l = i; // Automatisk.
+
+float f = l // automatisk
+
+/** Utmatning:
+ * int:   10
+ * long:  10
+ * float: 10.0
+ */
+\end{lstlisting}
+Vill man tilldela en data-typ av större sort måste man använda explicit typomvandling.
+\begin{lstlisting}[language=java]
+// double -> float -> long -> int -> short -> byte
+
+// Exempel
+double d = 50.2;
+
+long l = (long)d; // (datatyp)variabel explicit typomvandling
+int i = (int)l;
+
+/** Utmatning:
+ * double: 50.2
+ * long:   50
+ * int:    50
+ */
+\end{lstlisting}
+\end{document}

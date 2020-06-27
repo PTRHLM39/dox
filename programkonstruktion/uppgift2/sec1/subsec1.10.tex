@@ -1,0 +1,36 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Vad menas med prioriteringsordning? Ge några exempel.}
+Som den ordinära matematikens prioriteringsregler, gäller även vid programmeringens aritmetik. Operatorerna \textbf{*} (multiplikation) och \textbf{/} (division) har högre prioritet än \textbf{+} (addition) och \textbf{-} (subtraktion).\\
+\\
+Om ett numeriskt uttryck innehåller fler operatorer utförs den operatorn med högst prioritet först. Har operatorerna samma prioritetgrad utförs uträkningen helt enkelt från vänster till höger. \\
+Man kan skifta ordningen med parenteser precis som i vanlig matematik.
+\\
+Exempel;
+\begin{lstlisting}[language=java]
+int x = 5, y = 3;
+x + 2 * y;   // Blir 11 i och med multiplikationens prioritet.
+
+(x + 2) * y; // Blir 21 i och med parentesernas inverkan.
+
+x * 2 * y;   // Blir 30.
+
+x * (2 * y); // Blir 30.
+\end{lstlisting}
+Följande har inget med java att göra men finner det intressant hur det kan skilja mellan olika programspråk.\\
+Programmeringsspråk som Lisp-språken använder sig av "omvänd polsk notation" för att uttrycka prioriteringsreglerna.
+I "omvänd polsk notation" skrivs operatorerna före operanderna.\\
+Exempel;
+\begin{lstlisting}[language=lisp]
+;;; Aritmetik i Common-lisp
+
+(let ((x 5)  ; Variabel initiering
+      (y 3)) ; *******************
+      (+ x (* 2 y))    ; 11
+      (* (+ x 2) y)    ; 21
+      (* x 2 y)        ; 30
+      (* (* 2 y) x))   ; 30
+\end{lstlisting}
+\end{document}

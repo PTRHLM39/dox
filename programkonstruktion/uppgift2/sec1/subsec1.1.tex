@@ -1,0 +1,26 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Vad är en variabel?} 
+
+Variabler är behållare där man kan förvara data i program. Dess innehåll(värde) kan förändras med ny data genom programmets gång och för att enkelt se vad en variabel innehåller nämner man dem helst med passande namn.\\
+\\
+\textbf{Anteckning till mig själv;}\\
+Man kan inte namnge en variabel som man skulle ge ett namn till en hund -bara för att det är gulligt eller det har bra klang. Till skillnad från hunden och dess namn, som är olika enheter, är en variabel och variabelns namn i princip samma sak. Följaktligen bestäms en variabels godhet eller dålighet till stor del av dess namn. Namnge variabler varsamt. \\
+\\
+\textbf{Exempel på dåliga variabler.}
+\begin{lstlisting}[language=java]
+x = x - xx;
+xxx = sixten + omsattningsskatt( sixten );
+x = x + forseningsavgift( x1, x) + xxx;
+x = x + ranta( x1, x);
+\end{lstlisting}
+\textbf{Exempel på bra variabler.}
+\begin{lstlisting}[language=java]
+balance = balance - lastPayment;
+monthlyTotal = newPurchases + salesTax( newPurchases );
+balance = balance + lateFee( customerID, balance ) + monthlyTotal;
+balance = balance + interest( customerID, balance);
+\end{lstlisting}
+\end{document}

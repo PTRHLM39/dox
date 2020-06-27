@@ -1,0 +1,36 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Vad är en literal? Ge några exempel på literaler.}
+Numeriska tal i program kallas för literaler. 
+\begin{lstlisting}[language=java]
+// Exempel
+int heltal;
+double flyttal;
+String text;
+
+heltal = 5;     // Heltalsliteral
+flyttal = 5.25; // Flyttalsliteral
+text = "6.75";      // OBS! En text, inte en literal!
+\end{lstlisting}
+
+\subsection{Hur skriver man kommentarer på en rad? och hur skriver man längre kommentarer dvs. kommentarer som sträcker sig över flera rader?}
+\begin{lstlisting}[language=java]
+// Denna kommentar tar en rad.
+
+/* Denna kommentar
+tar flera
+rader 
+i
+programmet*/
+
+/** Denna kan vara till dokumentationskommentarer
+  * innan programmet, kunna ge
+  * informativa beskrivningar
+  * till andra 
+  * programmerare!
+  */
+\end{lstlisting}
+
+\end{document}
