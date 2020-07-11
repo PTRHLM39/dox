@@ -1,0 +1,84 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Förklara vad ökningsoperatorn (++) och minskningsoperatorn (- -) gör med hjälp av några exempel (källkod).
+Dessa operatorer finns i två varianter, prefix och postfix.
+Förklara också skillnaden mellan dessa två varianter med hjälp av ett exempel (källkod).}
+
+När man utför upprepningar i program förekommer det ofta man vill öka värdet av en tilldelningsvariabel som sätts som räknare. Där med kommer öknings och minskningsoperatorer väl till pass.
+
+\subsubsection{Ökning och minskningsoperatorn.}
+\begin{itemize}
+    \item ++variabelNamn ökar önskad heltalsvariabel med 1.
+    \item - -variabelNamn minskar önskad heltalsvariabel med 1.
+\end{itemize}
+Nedan är ett program som räknar från 0 upp till 5 och sedan ner igen från 5 till 0 med hjälp av dessa operatorer.
+Operatorerna är definerade i \textbf{for}-loopernas förändringsdel.
+\begin{lstlisting}[language=java]
+public class Increment
+{
+   public static void main(String[] args)
+   {
+      String a = "incriment: ", b = "decriment: ";
+      
+      for (int i = 0; i < 5; ++i)
+      {
+         System.out.println(a + i);
+         
+         if (i == 4)
+         {
+            for (int d = 5; d >= 0; --d)
+            {
+               if (d == 5)
+                  System.out.println("Peek! Going down..");
+               else
+                  System.out.println(b + d);
+            }
+         }
+      }
+   }
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=java]
+/*Utmatning:*/
+incriment: 0
+incriment: 1
+incriment: 2
+incriment: 3
+incriment: 4
+Peek! Going down..
+decriment: 4
+decriment: 3
+decriment: 2
+decriment: 1
+decriment: 0
+\end{lstlisting}
+
+\subsubsection{Prefix och postfix.}
+Prefix(++variabelNamn) och postfix(variabelNamn++) är väldigt lika, men inte riktigt desamma. Hade postfix används till exemplet ovan hade det inte blivit någon skillnad i resultatet. Båda ökar (och med - -, minskar) variablernas värden. Prefix (++i) ökar värdet \textbf{innan} det aktuella uttrycket utvärderas, medan postfix(i++) ökar värdet \textbf{efter} att uttrycket har utvärderats!
+\\
+Exempel 
+\begin{lstlisting}[language=java]
+public class Postfix 
+{
+   public static void main(String[] arg)
+   {
+      int x, y, z, a, b, c;
+      
+      x = 8; y = 6;
+      // Prefix 
+      z = ++x * --y;
+      System.out.println(z); // 45 = 9 * 5
+      
+      a = 8; b = 6;
+      // Postfix
+      c = a++ * b--;
+      System.out.println(c); // 48 = 8 * 6
+   }
+}
+\end{lstlisting}
+\end{document}
