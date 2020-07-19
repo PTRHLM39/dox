@@ -1,0 +1,91 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Logiska fel}
+\label{sec:c2}
+Logiska fel uppstår när man tänkt fel vid konstruktionen av programmet. Dessa fel är svåra att hitta, då programmet lyckas kompileras och exekveras utan några felmeddelanden.
+Men vid test av programmet visar sig resultatet inkorrekt.\\
+\\
+Exemplet nedan är ett program som skall skriva ut alla primtal mellan 1 till n.
+\begin{lstlisting}[language=c]
+#include <stdio.h>
+int main() 
+{
+  int n, counts = 0;
+
+  printf("Enter value n: ");
+  scanf("%d", &n);
+
+  for (int i=1; i<=n; i++) {
+  // Check if prime.
+  _Bool is_prime = 0;
+  for (int k = 2; k<i; k++)
+    if (i % k == 0)
+      is_prime = 1;
+    if (is_prime) {
+      counts++;
+      printf("  %d", i);
+      if (counts % 10 == 0)
+        printf("\n");
+    }
+  }
+}
+\end{lstlisting}
+Programmet gör inte som det var tänkt. Då programmet skriver ut alla tal förutom primtalen?
+Med utskriften:
+\begin{lstlisting}
+Enter value n: 100
+  4   6   8   9   10  12  14  15  16  18
+  20  21  22  24  25  26  27  28  30  32
+  33  34  35  36  38  39  40  42  44  45
+  46  48  49  50  51  52  54  55  56  57
+  58  60  62  63  64  65  66  68  69  70
+  72  74  75  76  77  78  80  81  82  84
+  85  86  87  88  90  91  92  93  94  95
+  96  98  99  100
+\end{lstlisting}
+\newpage
+
+Zoomar vi in på undersökningen av primtalen, 
+\begin{lstlisting}[language=c]
+for (int i=1; i<=n; i++) {
+  // Check if prime.
+  _Bool is_prime = 0; // ger ut 'falskt' vid primtal
+  for (int k = 2; k<i; k++)
+    if (i % k == 0)
+      is_prime = 1; // 'sant' vid delbara tal.
+    if (is_prime) { // <----------
+      counts++;
+      printf("  %d", i);
+      if (counts % 10 == 0)
+        printf("\n");
+    }
+  }
+\end{lstlisting}
+ser vi att det blivit fel vid de logiska sannings-värdena.\\
+\\
+Genom att ändra de logiska uttrycken till att istället ge ut 'sant' vid primtalen
+\begin{lstlisting}[language=c]
+_Bool is_prime = 1; // 'sant' vid primtal
+.....
+.....
+if (i % k == 0) 
+  is_prime = 0; // 'falskt' vid delbara tal
+if (is_prime){    // 'sant' vid primtal
+....
+}
+\end{lstlisting}
+Ger sedan korrekta utskriften:
+\begin{lstlisting}
+Enter value n: 100
+  1  2  3  5  7   11  
+  13  17  19  23  29
+  31  37  41  43  47  
+  53  59  61  67  71
+  73  79  83  89  97
+\end{lstlisting}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black]
+Referens till programtext finner du \hyperref[sec:logic]{\textbf{här}}
+\end{tcolorbox}
+\end{document}

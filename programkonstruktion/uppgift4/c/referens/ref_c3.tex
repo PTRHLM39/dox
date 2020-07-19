@@ -1,0 +1,48 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsubsection{Exekveringsfel}
+\label{sec:exec}
+\begin{lstlisting}[language=c]
+#include <stdio.h>
+
+int main() {
+
+    char file_name[100];
+
+    printf("Enter file-name: ");
+    scanf("%s", file_name);
+
+    FILE *input_file = fopen(file_name, "r");
+
+    char s[100];
+    while (fgets(s, 100, input_file) != NULL)
+        printf("%s", s);
+\end{lstlisting}
+
+\begin{itemize}
+
+    \item I programmet ovan tilldelas en sträng-variabeln(tecken-fältet) \texttt{file\_name} ett filnamn av användaren.
+    
+    \item Sedan tilldelas \texttt{input\_file} av typen \texttt{FILE} till att öppna filen med namnet \texttt{file\_name} som tilldelades av användaren. "r" beskriver att \texttt{fopen()} skall läsa(read) den valda filen.
+    
+    \begin{lstlisting}[language=c]
+    FILE *input_file = fopen(file_name, "r");
+    \end{lstlisting}
+    
+    \item Sedan tilldelas tecken-fältet \texttt{s}. och en \texttt{while}-loop deklareras till att läsa de 100 första tecknen i filen och skriva ut i terminal-fönstret.
+    
+    \begin{lstlisting}[language=c]
+    char s[100];
+    while (fgets(s, 100, input_file) != NULL)
+        printf("%s", s);
+    \end{lstlisting}
+    
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black]
+  Tack för att du läste. Gå tillbaks till början \hyperref[sec:top]{\textbf{här}}
+\end{tcolorbox}
+
+\end{document}
