@@ -1,0 +1,328 @@
+* Lisp(Listprocessor)
+** Om Lisp
+*Vad gör lisp till ett ovanligt men ändå betydelsefullt programspråk?*
+Lisp är ett uttryckbart språk. Med sin design låter författaren uttrycka 
+komplicerade programmerings-idéer klart och tydligt direkt i programtexten.
+
+"The power at your fingertips when writing Lisp code is what makes it so different.
+Once you "get" Lisp, you'll be forever changed as a programmer. Even if you end up
+never writing Lisp code again for the rest of your life, learning Lisp will fundamentally
+change you as a coder." - Conrad Barski
+
+
+*** Siffror 
+Lisp stödjer flyt och heltal. På ett smart sätt, bestämmer Lisp om det är ett heltal eller flyttal vid närvaron av en decimalpunk.
+1 och 1.0 är två olika enheter.
+#+BEGIN_SRC lisp
+  (+ 1 1.0) ; 2.0
+#+END_SRC
+En annan förvånande funktion är(speciellt när detta jämförs med andra språk);
+#+BEGIN_SRC lisp
+  (expt 64 64)
+  ;39402006196394479212279040100143613805079739270465446667948293404245721771497210611414266254884915640806627990306816
+#+END_SRC
+64 upphöjt till 64. Det utstående med detta är att de flesta språken kvävs av beräkningar
+under stora tal som dessa.
+
+Och inte minst, kan något märkligt ske vid dividering av heltal.
+#+BEGIN_SRC lisp
+  (/ 4 6) ; 2/3
+  (/ 4.0 6) ; 0.6666667
+#+END_SRC
+Istället för ett irrationellt deltal (0.6666...) ges ett rationellt tal i form
+av två heltal med en division-symbol(/) som separerar dem.
+
+Notera att med ett decimaltal i uträkningen ges svaret i decimalform.
+** Listor
+Listor är en stor del av Lisp. Det är listor som håller ihop programmen, koden och datan.
+#+BEGIN_SRC lisp
+(expt 2 3)
+#+END_SRC
+Programtexten ovan innehåller en symbol (expt) och två tal, allt ihopsatt som en lista, indikerade av parenteserna.
+
+föreställ dig Lisp-program som hus. Om du byggde ett hus i Lisp, skulle väggarna va uppbyggda av listor. Tegelstenarna består av symboler, siffror och strängar.
+I vilket fall behöver väggar murbruk för att hålla samman. I det här fallet hålls, listor i Lisp, samman av strukturer kallat =cons=-celler.
+*** List-funktioner
+Att kunna manipulera i listor är nödvändigt i Lisp-programmering. Det finns tre grundfunktioner för att manipulerara =cons=-celler: =cons=, =car= och =cdr=.
+**** cons-funktionen
+Skall två bitar av data länkas samman i ett Lisp-program (oavsett datatyp), är det vanligaste sättet med hjälp av =cons=. När cons exkeveras, allokerar Lisp kompilatorn
+en liten del av minnet, med =cons=-cellen, som sedan kan hålla två referenser till objektet som länkas. (Oftast är det andra elementet som länkas en lista.)
+Exempel
+#+BEGIN_SRC lisp
+  (cons 'häst 'katt)
+  ;; (HÄST . KATT)
+#+END_SRC
+=cons= returerar =cons=-cellen, som de två sammanlänkade artiklarna "häst" och "katt"
+separerade med en punkt (.). Punkten i mitten gör detta till en =cons=-cell,
+genom att länka dessa artiklar tillsammans.(Kallas att "consa" (eller "consing" på engelska.))
+
+**** car och cdr-funktionen
+Listor är bara långa kedjor av celler.
+
+=car=-funktionen används till att få ut objektet i första elementet av en cell.
+#+BEGIN_SRC lisp
+(car '(ägg mjöl smör))
+;; ÄGG
+#+END_SRC
+
+=cdr=-funktionen används till att ta ut värdet ur andra elementet, eller resterande av en lista.
+#+BEGIN_SRC lisp
+(cdr '(ägg mjöl smör))
+;; (MJÖL SMÖR)
+#+END_SRC
+
+Det finns många olika sett att skapa listor i Lisp.
+tex med =list=
+
+Kom ihåg att följande;
+#+BEGIN_SRC lisp
+(cons 'ägg (cons 'mjöl (cons 'smör ())))
+(list 'ägg 'mjöl 'smör)
+'(ägg mjöl smör)
+#+END_SRC
+är likadana.
+
+*** Kapslade listor 
+Listor kan innehålla andra listor.
+exempel
+#+BEGIN_SRC lisp
+'(katt (anka ko) hund)
+#+END_SRC
+Är en lista innehållande tre artiklar. Det andra elementet i denna lista innehåller
+en annan lista. Vilket är en kapslad lista.
+
+Vilket även går att skapa med =cons=-celler.
+#+BEGIN_SRC lisp
+  (cons (cons 'katt (cons 'anka (cons 'ko ())))
+	(cons (cons 'hund (cons 'häst (cons 'llama ()))) ()))
+	;; ((KATT ANKA KO) (HUND HÄST LLAMA))
+#+END_SRC
+** Att välja
+#+BEGIN_SRC lisp
+  (if '()
+      'i-am-true
+      'i-am-false)
+  ;; I-AM-FALSE
+
+  (if '(1)
+      'i-am-true
+      'i-am-false)
+  ;; I-AM-TRUE
+#+END_SRC
+Detta exempel visar att med en tom lista () inne i en =if=-form, evalueras det som ett
+falskt värde, medan en lista innehållande ett värde, evalueras som sant.
+** Uttryck
+*** Aritmetik
+Lisp använder omvänd, polsk notation vid aritmetik. + 3 4 = 7 eller / 6 2 = 3.
+Lisp är även känt för sina paranteser. som;
+=(flet ((f (n)(+ n 10))(g (n)(- n 3)))(g (f 5)))=
+**** Exempel 
+#+BEGIN_SRC lisp :result 
+  (+ 2) ;; 2
+  (+ 2 3) ;; 5
+  (+ 1 2/3) ;; 5/3 bråk
+
+  (+ 2.5 -3.4) ;; -0.9 Heltal och flytalsargument
+  (* 2 -3) ;; -6
+  (* 2.5 3 5.5) ;; 41.25
+#+END_SRC 
+*** Namngivning av uttrycksvärde - Konstanter
+#+BEGIN_SRC lisp
+  (setq namn uttryck)
+#+END_SRC
+**** Exempel 
+#+BEGIN_SRC lisp
+  (setq irrationellt-tal 1.41421356237)
+  (setq pi 3.14)
+
+  (setq radius 4)
+  (setq area (* pi radius radius)) ;; 50.24
+#+END_SRC
+*** Globala Variabler
+Funktionsnamnet =defparameter= är aningen missvisande i och med att den inte
+har någonting med parametrar att göra. Utan är till för att definera globala
+variabler.
+Asteriskerna som omger variabelnamnen
+(kallas öronmuffar) är arbiträra och frivilligt att använda. 
+Syftet med öronmuffarna är att skilja globala variabler från lokala variabler.
+#+BEGIN_SRC lisp
+  (defparameter *small* 1)
+  (defparameter *big* 100)
+#+END_SRC
+/Även om öronmuffarna är valfritt, vädjar jag dig att använda dem för din
+egen säkerhet om du någonsin postar något till Common Lisp-nyhetsgrupper
+och dina globala variabler saknar öronmuffar./
+
+När globala variabler tilldelas värden med funktionen =defparameter=, tidigare
+tilldelade värden kan bli överskrivna
+#+BEGIN_SRC lisp
+  (defparameter *variabel_x3000* 2)
+  ,*variabel_x3000*
+  2
+  (defparameter *variabel_x3000* 7)
+  ,*variabel_x3000*
+  7
+#+END_SRC
+
+Ett annat val för att definera globala variabler, och undvika få de tilldelade
+värdet överskrivet är =defvar=
+#+BEGIN_SRC lisp
+  (defvar *variabel_123* 5)
+  ,*variabel_123*
+  5
+  (defvar *variabel_123* 6)
+  ,*variabel_123*
+  5
+#+END_SRC
+*** Lokala Variabler
+Lokala variabler är användbart när tillgängligheten av variablerna skall
+begränsas. Tex i enbart en funktion eller ett block. Då används =let= vilket
+har strukturen;
+#+BEGIN_SRC lisp
+  (let (variabel deklaration)
+    ...Logik...)
+#+END_SRC
+Endast dem deklarerade variablerna kan användas inuti "logik-kroppen"
+#+BEGIN_SRC lisp
+  (let ((a 5)
+	(b 6))
+    (+ a b)) ;; 11
+#+END_SRC
+** Strängar
+Skriv ut text med =princ=
+#+BEGIN_SRC lisp
+  (princ "lisp")
+  ;; lisp
+  ;; "lisp"
+#+END_SRC
+** Funktioner
+*** Definera funktioner
+I common-lisp är funktioner definerade med =defun=, som följande;
+#+BEGIN_SRC lisp
+  (defun funktionens_namn (argument)
+    <funktions-kropp>)
+#+END_SRC
+Först nämner vi funktionen, sedan argumenten till funktionen.
+Sedan sammansätts funktionens logik i <funktions-kroppen>.
+*** Definera lokala funktioner
+Med =flet= defineras lokala funktioner. =flet= är strukturerat;
+
+#+BEGIN_SRC lisp
+  (flet ((funktion_namn (argument)
+	   ...funktions krop...))
+    ..Logik-kropp..)
+#+END_SRC
+
+I följande exempel defineras en funktion(f), som tar ett argument(n).
+Funktionen =(f)= adderar sedan 10 till variabeln =(n)=. 
+
+I logik-kroppen tillkallas funktionen med argumentet 5  =(f 5)= vilket 
+sedan utvärderas till värdet 15.
+#+BEGIN_SRC lisp
+  (flet ((f (n)
+	   (+ n 10)))
+    (f 5)) ;; 15
+#+END_SRC
+/Det är möjligt att definera en eller flera funktioner inom/ =flet=
+#+BEGIN_SRC lisp
+  (flet ((f (n)
+	   (+ n 10))
+	 (g (n)
+	   (- n 3)))
+    (g (f 5))) ;; 12
+#+END_SRC
+/Få funktionsnamn tillgängligt i definerade funktioner används/ =labels=
+#+BEGIN_SRC lisp 
+  (labels ((a (n)
+	     (+ n 5))
+	   (b (n)
+	     (+ (a n) 6)))
+    (b 10)) ;; 21
+#+END_SRC
+*** Standard bibliotek
+#+BEGIN_SRC lisp
+  (expt x n) ;; Ger ett tal upphöjt med n
+  (exp n) ;; ger euler(e) upphöjt med n
+  (sqrt x) ;; sqrt ger kvadratroten ur ett tal.
+  (abs x) ;; ger absolutbeloppet
+
+  (max x_1 .... x_n) ;; Ger största värdet
+  (min x_1 .... x_n) ;; Ger största värdet
+#+END_SRC
+#+BEGIN_SRC lisp
+  (float x) ;; Konverterar hel eller bråktal till flyttal
+  (truncate 3.14) ;; Trunkerar ett tal, i det här fallet tar bort decimalerna
+  (round x) ;; Avrundar ett tal
+  (mod x y) ;; Ger resten efter heltalsdivision
+
+  (ash 11 1) ;; Registrerar värden i binärform och skiftar därefter.
+  ;; användbart vid binärsökning.
+#+END_SRC
+=Trunkerar; (datateknisk term) Kapning. Förkortning av ett tal utan avrundning 2.12 blir 2.
+kapning av text eller annan informationsmängd.=
+** Program-läge & Data-läge
+Lisp använder sig utav två lägen när det läser dina program.
+/Program-läge/ (/code-mode/) och /data-läge/ (/data-mode/).
+
+*** Program-läge
+Lisp antar alltid att det som skrivs är kod, vilket sätter /program-läget/ 
+som standard.
+
+#+BEGIN_SRC lisp
+  (expt 2 3)
+  ;; 8
+#+END_SRC
+
+*** Data-läge
+Allt som skrivs i detta läget anses som enbart data och kan inte bli exkeverat
+som det skrivet i /program-läget/.
+
+#+BEGIN_SRC lisp
+  '(expt 2 3)
+  ;; (expt 2 3)
+#+END_SRC
+Skillnaden är citattecknet. Vilket säger till lisp att använda det vi skrev
+som data.
+
+Placera ett enkel-citat framför listor så dem inte kan exkeveras kallas
+/citera/ (/quoting/). Med citering, ber du Lisp; "Följande del är inte ett
+exkeverbart uttryck, utan enbart en bit data till mitt program."
+* Spel
+Följande är enkla spel skrivna i Lisp.
+** Gissa nummer
+Ett simpelt spel som går ut på att välja ett nummer mellan 1 och 100 sedan
+låta det gissas av en annan spelare.
+
+Tilldela två globala variabler ett minimi värde samt ett maximi.
+I det här fallet 1 som minimi och 100 som maximi.
+#+BEGIN_SRC lisp :tangle gissa-nummer.lisp
+(defparameter *min* 1)
+(defparameter *max* 100)
+#+END_SRC
+
+Funktionen nedan består av standardfunktionen =ash= innehållande summan av minimum samt maximum värdet
+som argument. (-1) står för att =ash= skall söka det halverade talet nedåt.
+dvs 50 då summan av max och min är 101.
+=ash= används ofta i binärsökningar.
+#+BEGIN_SRC lisp :tangle gissa-nummer.lisp
+  (defun gissa-nummer ()
+    (ash (+ *min* *max*) -1))
+#+END_SRC
+När den definerade funktionen *gissa-nummret* evalueras ges talet 50 ut som första förslag.
+
+
+#+BEGIN_SRC lisp :tangle gissa-nummer.lisp
+  (defun mindre ()
+    (setf *max* (1- (gissa-nummer)))
+    (gissa-nummer))
+  (defun mer ()
+    (setf *min* (1+ (gissa-nummer)))
+    (gissa-nummer))
+#+END_SRC
+
+#+BEGIN_SRC lisp :tangle gissa-nummer.lisp
+  (defun omstart ()
+    (defparameter *min* 1)
+    (defparameter *max* 100)
+    (gissa-nummer))
+#+END_SRC
