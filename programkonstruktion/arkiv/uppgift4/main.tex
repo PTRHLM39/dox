@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{subfiles}
+
+\usepackage{dirtytalk}
+%% Define Code Blocks Begin %%
+\usepackage{listings}
+\usepackage{color}
+\usepackage{keyval}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% Note-box
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+
+% Figs
+\usepackage{graphicx}
+\graphicspath{ {sec1/Figs/} }
+\usepackage{wrapfig}
+
+\lstset{frame=tb,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    tabsize=3
+}
+%% Define Code Blocks End %%
+
+%% Flow-chart Begin %% 
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+%% Boxes
+
+
+%% Platform-boxes
+\tikzstyle{selektion} = [diamond, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+
+%% OS-box
+\tikzstyle{os} = [rectangle, minimum width=1cm, minimum height=1cm, text centered, draw=black, fill=yellow!30]
+
+%% Arrows
+\tikzstyle{line} = [draw, -latex']
+%% Flow-chart End %%
+
+\title{Programmering 1 - Uppgift 4}
+\author{Peter Holm}
+\date{Juli 2020}
+
+\begin{document}
+
+\maketitle
+\section{}
+\subfile{sec1/subsec1.1}
+\newpage
+\subfile{sec1/subsec1.2}
+\newpage
+\subfile{sec1/subsec1.3}
+\subfile{c/c1}
+\newpage
+\subfile{c/c2}
+\newpage
+\subfile{c/c3}
+
+\newpage
+% referens
+\subfile{c/referens/ref_c1}
+\newpage
+\subfile{c/referens/ref_c2}
+\newpage
+\subfile{c/referens/ref_c3}
+
+\end{document}

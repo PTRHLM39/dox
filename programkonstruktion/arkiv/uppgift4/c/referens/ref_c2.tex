@@ -1,0 +1,56 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsubsection{Logiska fel}
+\label{sec:logic}
+\begin{lstlisting}[language=c]
+#include <stdio.h>
+int main() 
+{
+  int n, counts = 0;
+
+  printf("Enter value n: ");
+  scanf("%d", &n);
+
+  for (int i=1; i<=n; i++) {
+  // Check if prime.
+  _Bool is_prime = 1;
+  for (int k = 2; k<i; k++)
+    if (i % k == 0)
+      is_prime = 0;
+    if (is_prime) {
+      counts++;
+      printf("  %d", i);
+      if (counts % 10 == 0)
+        printf("\n");
+    }
+  }
+}
+\end{lstlisting}
+
+\begin{itemize}
+
+    \item I programmet ovan, tilldelas heltalsvariabeln \texttt{n} av användaren.
+    \texttt{n} sätts sedan in som vilkorsdel i en \texttt{for}-sats.
+    
+    \begin{lstlisting}[language=c]
+    for (int i=1; i<=n; i++)
+    \end{lstlisting}
+    
+    \item \texttt{for}-loopen ovan, räknar sedan från 1 till värdet i \texttt{n}.
+    För varje varv utförs även en kapslad \texttt{for}-loop deklarerad inuti \texttt{for}-loopen, ovan.
+    
+    \item Den kapslade \texttt{for}-loopens uppgift är att undersöka ifall värdet är ett primtal eller inte, genom iteration, moduleras värden \texttt{i} från huvud-loopen med \texttt{k} från sub-loopen.
+    
+    \item Om värdet \texttt{i} är delbart med \texttt{k}, sätts $is\_prime$ till falskt, och sant om resten är större än noll.
+    
+    \item Slutligen skrivs primtalet ut och om varven(\texttt{counts}) av \texttt{for}-loopen är delbart med 10 utförs en ny rad. Främst för att utskriften skall bli nätt.
+    
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black]
+  Gå till nästa uppgift, 'exekveringsfel' \hyperref[sec:c3]{\textbf{här}}
+\end{tcolorbox}
+
+\end{document}

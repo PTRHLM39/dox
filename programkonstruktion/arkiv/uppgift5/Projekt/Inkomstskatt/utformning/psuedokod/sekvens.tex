@@ -1,0 +1,43 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+
+\KwResult{Ger kommunalskatten}
+
+ \textbf{DEFINE} KOMMUNALSKATT 0.32\%\;
+ \textbf{Return} inkomst * kommunalskatt\;
+ 
+ \caption{\textbf{Sekvens beräkning.} Kommunalskatt, baserad på den genomsnittliga procenten i landet.}
+ 
+\end{algorithm}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+
+\KwResult{Grundavdraget}
+
+ \textbf{DEFINE} GRUNDAVDRAG = 13400 \;
+ 
+ \caption{\textbf{Sekvens} Sätter grundavdraget som konstant. I det här fallet 13400SEK}
+ 
+\end{algorithm}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+
+\KwResult{Statlig skatt}
+
+ \textbf{DEFINE} NEDRE\_SKIKTGRÄNS = $490700$ \;
+ \textbf{DEFINE} ÖVRE\_SKIKTGRÄNS = $689300$ \;
+ 
+ \textbf{DEFINE} NEDRE\_SKIKTGRÄNS\_PROCENT = $0.20$ \;
+ \textbf{DEFINE} ÖVRE\_SKIKTGRÄNS\_PROCENT = $0.25$ \;
+ \caption{\textbf{Sekvens} Sätter skiktgränsvärdena som konstanter, baserat på inkomståret 2019}
+ 
+\end{algorithm}
+
+
+\end{document}

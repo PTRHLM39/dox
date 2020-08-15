@@ -1,0 +1,70 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Konvertera följande while-sats till en for-sats, förklara koden i detalj
+och beskriv vad blir utskriften blir efter körning (efter lämplig komplettering av koden).}
+
+\begin{lstlisting}[language=java]
+int k = 0; // Heltalsvariabeln k, initieringsdel.
+String s = "k:"; // Textvariabeln s 
+while(k < 6) {  // Logiskt uttryck, villkorsdel.
+    s = s + " " + k; // sats1
+    k = k + 2; // sats2, forandringsdel.
+    
+    System.out.println(s); // Utmatning i kommandotolken
+}
+\end{lstlisting}
+\begin{itemize}
+    \item Heltalsvariabeln \textbf{k}
+    sätts som räknare till \textbf{while}-satsens logiska uttryck. \textbf{while}-satsens uppgift är att repetera en eller flera programsatser, för var gång \textbf{while}-satsens logiska uttryck är sant, utförs satserna innanför \textbf{while}-satsens klamrar. I det här fallet utförs \textbf{while}-satsen 3 gånger tills det logiska uttrycket är falskt och inga fler varv i \textbf{while} utförs.
+    
+    \item Sats1 innanför klamrarna tilldelar strängvariabeln \textbf{s}, strängen, "\texttt{k: <whitespace>}" samt värdet i "\texttt{k}" för varje varv \textbf{while}-satsen utförs.
+    
+    \item Sats2 utökar värdet genom att addera värdet 2 till heltalsvariabeln \textbf{k} för varje varv i \textbf{while}-satsen.
+    
+    \item Genom att placera en \textbf{println}-metod innuti \textbf{while} kan vi se hur det hela successivt byggs upp genom repetitionens gång, via kommandotolken. Efter exekvering får vi utmatningen;
+    
+    \begin{lstlisting}
+    k:  0
+    k:  0 2
+    k:  0 2 4
+    \end{lstlisting}
+    Ändrar vi det logiska uttrycket till \textbf{while}(k $<$ 12), får vi utmatningen;
+    \begin{lstlisting}
+    k:  0
+    k:  0 2
+    k:  0 2 4
+    k:  0 2 4 6
+    k:  0 2 4 6 8
+    k:  0 2 4 6 8 10
+    \end{lstlisting}
+    Utförs istället \textbf{while} 6 gånger.
+\end{itemize}
+\newpage
+
+Nedan följer \textbf{while}-satsen tidigare, omskriven till en \textbf{for}-loop.
+\begin{lstlisting}[language=java]
+String s = "k:";
+
+for (int k = 0; k < 12; k = k + 2) {
+    s = s + " " + k;
+    System.out.println(s);
+}
+// Utmatning:
+// k: 0
+// k: 0 2
+// k: 0 2 4
+// k: 0 2 4 6
+// k: 0 2 4 6 8
+// k: 0 2 4 6 8 10
+\end{lstlisting}
+Skillnaden mellan en \textbf{while} och en \textbf{for}-loop är att inuti \textbf{for}-loopens parenteser sker en initieringsdel
+en vilkorsdel(logisk uttryck) samt en förändringsdel.
+
+\begin{itemize}
+    \item \textbf{while}-loopens initieringsdel sker innan repetitions-satsen.
+    \item \textbf{while}-loopens villkorsdel sker efter \textbf{while}-deklarationen, inuti dess parenteser. Likt \textbf{for}.
+    \item \textbf{while}-loopens förändringsdel sker inuti dess klamer-kropp.
+\end{itemize}
+\end{document}

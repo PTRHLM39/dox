@@ -1,0 +1,44 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{\textit{Vad har kompilatorn för uppgift? Beskriv kompileringsprocessen. Skriv i detalj hur man skapar och kompilerar ett java-program.}}
+
+Kompilatorer är program, vars uppgift är att konvertera programtext skrivet i ett visst programmeringsspråk till binärkod. Dvs, instruktioner i form av
+ettor och nollor som sedan kan laddas in i primärminnet och exekveras i processorer. Detta kallas kompilera.
+
+\subsubsection{Kompileringsprocessen}
+
+%% Flow-chart figure
+\begin{wrapfigure}{l}{0.6\textwidth}
+
+\begin{tikzpicture}[node distance=2cm]
+
+\node (file) [file] {Källkod (.Java-fil suffix)};
+\node (command) [command, below of=file] {javac kommando};
+\node (file1) [file, below of=command] {Bytekod (.Class-fil suffix)};
+\node (jvm) [platform, below of=file1] {V};
+\node (jvm1) [platform, left of=jvm] {J};
+\node (jvm2) [platform, right of=jvm] {M};
+
+\node (os) [os, below of=jvm1] {Windows};
+\node (os1) [os, below of=jvm] {Linux};
+\node (os2) [os, below of=jvm2] {OSX};
+
+\draw [arrow] (file) -- (command);
+\draw [arrow] (command) -- (file1);
+\draw [arrow] (file1) -- (jvm);
+\draw [arrow] (file1) -- (jvm1);
+\draw [arrow] (file1) -- (jvm2);
+\draw [arrow] (jvm) -- (os1);
+\draw [arrow] (jvm1) -- (os);
+\draw [arrow] (jvm2) -- (os2);
+
+\end{tikzpicture}
+
+\end{wrapfigure}
+%% Flow-chart end
+
+Att skriva och kompilera ett eget java-program utförs genom att skriva programtext som följer javas uppsättning av regler. Spara filen i filnamnändelsen \textbf{.Java}. Kör sedan kommandot; \textbf{javac Filnamn.Java} i en kommandotolk.  Kollar du nu i mappen där \textbf{.Java}-filen kompilerades finns även nu en \textbf{.Class}-fil tillgänglig. Har inga felmeddelanden dykt upp i terminalen och \textbf{.Class}-filen ligger i din mapp var kompileringen lyckad. Exekvera sedan ditt program genom att köra javas virtuella maskin med kommandot \textbf{java Filnamn} i kommandotolken.
+
+\end{document}

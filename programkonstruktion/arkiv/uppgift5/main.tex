@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{subfiles}
+
+%% Note-box
+\usepackage[most]{tcolorbox}
+
+% Figs
+\usepackage{graphicx}
+\graphicspath{ {Projekt/figs/} }
+
+% Psuedokod
+\usepackage{fancyhdr,graphicx,amsmath,amssymb}
+\usepackage[ruled,vlined]{algorithm2e}
+\include{pythonlisting}
+
+\title{Programmering 1 - Uppgift 5}
+\author{Peter Holm }
+\date{Augusti 2020}
+
+\begin{document}
+
+\maketitle
+% B
+\subfile{Projekt/Genomsnitt/introduktion.tex}
+\subfile{Projekt/Genomsnitt/utformning/utformning.tex}
+\subfile{Projekt/Genomsnitt/utformning/psuedokod/psuedokod.tex}
+% A
+\subfile{Projekt/Inkomstskatt/introduktion.tex}
+\subfile{Projekt/Inkomstskatt/utformning/utformning.tex}
+\subfile{Projekt/Inkomstskatt/utformning/psuedokod/psuedokod.tex}
+% Summary
+\subfile{Projekt/test.tex}
+\subfile{Projekt/vidarutveckling.tex}
+\end{document}

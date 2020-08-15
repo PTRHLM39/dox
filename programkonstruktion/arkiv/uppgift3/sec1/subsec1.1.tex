@@ -1,0 +1,32 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Ge tre olika exempel på logiska uttryck.}
+
+\textit{När man skall välja mellan olika vägar i ett program använder man för det mesta en if-sats.}
+\textit{Denna sats kan se ut på olika sätt. Den enklaste versionen har formen:}
+\begin{lstlisting}[language=java]
+if (logiskt uttryck)
+    sats;
+\end{lstlisting}
+
+\textbf{Exempel på logiska uttryck:}
+
+\begin{lstlisting}[language=java]
+// Exempel 1
+if (liquidLevel >= maxLevel)
+    openValve();
+    
+// Exempel 2
+if (liquidLevel < minLevel) {
+    closeValve();
+    fillReservoir();
+}
+// Exempel 3
+if (waterTemp > thermostatValue || waterTemp < thermostatValue)
+    adjustWaterTemp();
+    
+\end{lstlisting}
+
+\end{document}
