@@ -128,7 +128,7 @@ och välja "Enable SPI" under "Advanced" villket aktiverar =spidev=.
 |-------------+-----------------|
 | *BIOS-chip* | *Raspberry Pie* |
 |-------------+-----------------|
-| 2 VCC       | 1/17 3.3v       |
+| 2 VCC       | 1 eller 17 3.3v |
 |-------------+-----------------|
 | 7 CS#       | 24 SPI_CE0      |
 |-------------+-----------------|
@@ -140,9 +140,9 @@ och välja "Enable SPI" under "Advanced" villket aktiverar =spidev=.
 |-------------+-----------------|
 | 16 SCLK     | 23 SCLK         |
 |-------------+-----------------|
-/SCLK: Serial clock/
-/MOSI: Master Output Slave Input/
-/MISO: Master Input Slave Output/
+- /SCLK: Serial clock/
+- /MOSI: Master Output Slave Input/
+- /MISO: Master Input Slave Output/
 
 *OBS håll enkortsdatorn avstängd vid placering av SOIC-klämman!*
 /I värsta fall kan BIOS-chipet bli stekt./
@@ -187,4 +187,4 @@ Det kan även misslyckas några gånger.
 
 När slutmeddelanden som =Verifying flash.. Verified= eller =Warning: Chip content is identical to the requested image= spottats ut, är allt klart.
 
-- Plocka sedan ihop din burk och installera ett Libre OS.
+- Plocka sedan ihop din burk och installera eller configuera ett Libre OS.
